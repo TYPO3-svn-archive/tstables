@@ -32,6 +32,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '0.0.0',
 	'constraints' => array(
 		'depends' => array(
+			'pt_tools' => '0.4.2-',
+			'pt_mvc' => '0.0.2-',
 		),
 		'conflicts' => array(
 		),
