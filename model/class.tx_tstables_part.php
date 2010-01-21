@@ -29,7 +29,7 @@
 
 
 require_once t3lib_extMgm::extPath('tstables').'model/class.tx_tstables_abstractElement.php';
-require_once t3lib_extMgm::extPath('tstables').'model/class.tx_tstables_part.php';
+require_once t3lib_extMgm::extPath('tstables').'model/class.tx_tstables_row.php';
 
 
 /**
@@ -39,10 +39,10 @@ require_once t3lib_extMgm::extPath('tstables').'model/class.tx_tstables_part.php
  * @package	TYPO3
  * @subpackage	tx_tstables\model
  */
-class tx_tstables_table extends tx_tstables_abstractElement {
+class tx_tstables_part extends tx_tstables_abstractElement {
 	
-	protected $restrictedClassName = 'tx_tstables_part';
-	protected $tagName = 'table';
+	protected $restrictedClassName = 'tx_tstables_row';
+	protected $tagName = 'tbody';
 	
 }
 

@@ -43,6 +43,16 @@ abstract class tx_tstables_abstractElement extends tx_pttools_objectCollection i
 	protected $tagParams;
 	
 	/**
+	 * @var string
+	 */
+	protected $tagName;
+	
+	/**
+	 * @var string
+	 */
+	protected $nextLevelTagName;
+	
+	/**
 	 * Set properties from array (typoscript)
 	 * 
 	 * @param array $dataArray
@@ -56,6 +66,11 @@ abstract class tx_tstables_abstractElement extends tx_pttools_objectCollection i
 			if ($key) {
 				$childConfiguration = $dataArray[$key.'.'];
 				tx_pttools_assert::isNotEmptyArray($childConfiguration, array('message' => 'No child configuration found in class '. get_class($this)));
+				
+				// set next level tag name if not set
+				if (!empty($this->nextLevelTagName) && empty($childConfiguration['tagName']) && empty($childConfiguration['tagName.'])) {
+					$childConfiguration['tagName'] = $this->nextLevelTagName; 
+				}
 				$child = new $className;
 				$child->setPropertiesFromArray($childConfiguration);
 				$this->addItem($child);
@@ -63,8 +78,19 @@ abstract class tx_tstables_abstractElement extends tx_pttools_objectCollection i
 		}
 	}
 	
+	/**
+	 * Set the configuration
+	 * 
+	 * @param array $dataArray
+	 * @return void
+	 */
 	public function setConfiguration(array $dataArray) {
 		$this->tagParams = $GLOBALS['TSFE']->cObj->stdWrap($dataArray['tagParams'], $dataArray['tagParams.']);
+		$tagName = $GLOBALS['TSFE']->cObj->stdWrap($dataArray['tagName'], $dataArray['tagName.']);
+		if (!empty($tagName)) {
+			$this->tagName = $tagName;
+		}
+		$this->nextLevelTagName = $GLOBALS['TSFE']->cObj->stdWrap($dataArray['nextLevelTagName'], $dataArray['nextLevelTagName.']);
 	}
 	
 	/**
@@ -84,6 +110,11 @@ abstract class tx_tstables_abstractElement extends tx_pttools_objectCollection i
 		return $output;
 	}
 	
+	/**
+	 * Renders the wrap
+	 * 
+	 * @return string
+	 */
 	protected function renderWrap() {
 		$wrap = '<'.$this->tagName;
 		if (!empty($this->tagParams)) {
