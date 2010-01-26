@@ -53,6 +53,11 @@ abstract class tx_tstables_abstractElement extends tx_pttools_objectCollection i
 	protected $nextLevelTagName;
 	
 	/**
+	 * @var array
+	 */
+	protected $stdWrap;
+	
+	/**
 	 * Set properties from array (typoscript)
 	 * 
 	 * @param array $dataArray
@@ -91,6 +96,7 @@ abstract class tx_tstables_abstractElement extends tx_pttools_objectCollection i
 			$this->tagName = $tagName;
 		}
 		$this->nextLevelTagName = $GLOBALS['TSFE']->cObj->stdWrap($dataArray['nextLevelTagName'], $dataArray['nextLevelTagName.']);
+		$this->stdWrap = $dataArray['stdWrap.'];
 	}
 	
 	/**
@@ -106,6 +112,8 @@ abstract class tx_tstables_abstractElement extends tx_pttools_objectCollection i
 		}
 		
 		$output = $GLOBALS['TSFE']->cObj->wrap($output, $this->renderWrap());
+		
+		$output = $GLOBALS['TSFE']->cObj->stdWrap($output, $this->stdWrap);
 		
 		return $output;
 	}
